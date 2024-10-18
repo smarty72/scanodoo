@@ -55,12 +55,12 @@ onMounted(async () => {
 watch(searchValue,(value)=>searchMe(value))
 
 let timer
-async function searchMe(evt){
-  if (!searchValue.value) return
+async function searchMe(search=searchValue.value){
+  if (!search) return
   if (timer) clearTimeout(timer)
   timer = setTimeout(async ()=>{
-      const product = await searchProduct(searchValue.value)
-      if (!product) return alert(`Product ${searchValue.value} kan niet gevonden worden`)
+      const product = await searchProduct(search)
+      if (!product) return alert(`Product ${search} kan niet gevonden worden`)
       barcodes.value.push(product)
       searchValue.value = ''
   },400)
@@ -73,8 +73,7 @@ function onLoaded(){
 }
 function getResults(a, b, c) {
   showScan.value = false
-  searchValue.value = a
-  searchMe()
+  searchMe(a)
 }
 
 // Function to request camera permissions and scan barcodes
@@ -88,10 +87,25 @@ const doScan = async () => {
     return;
   }
 
-  const { barcodes: scannedBarcodes } = await BarcodeScanner.scan();
-  //barcodes.value.push(...scannedBarcodes);
-  searchValue.value = scannedBarcodes.barcode || scannedBarcodes.rawValue
-  searchMe()
+  
+  const result = await BarcodeScanner.scan();
+  try {
+    if (result && result.barcodes.length > 0) {
+      // Get the first barcode from the result
+      const scannedBarcode = result.barcodes[0];
+      searchMe(scannedBarcode)
+      
+      console.log('Scanned Barcode: ', scannedBarcode);
+      return scannedBarcode;
+    } else {
+      alert('Geen geldige basrcode gevonden');
+      return null;
+    }
+    } catch (error) {
+    console.error('Fout bij het scannen: ', error);
+    return null;
+    }
+
 };
 
 // Function to request camera permissions
