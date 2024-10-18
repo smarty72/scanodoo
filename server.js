@@ -45,6 +45,7 @@ async function parseHtmlFromUrl(search) {
     // Example: Find and log the title of the page
     const pageTitle = $('title').text();
     console.log(pageTitle)
+    console.log('zoeken op', search)
     const productGrid = $('.product-grid');
 
     if (productGrid.length === 0) {

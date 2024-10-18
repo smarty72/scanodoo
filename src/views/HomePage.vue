@@ -98,7 +98,8 @@ const doScan = async () => {
       console.log('Scanned Barcode: ', scannedBarcode);
       return scannedBarcode;
     } else {
-      alert('Geen geldige basrcode gevonden');
+      alert('Geen geldige basrcode gevonden' + scannedBarcode);
+      alert(result)
       return null;
     }
     } catch (error) {
