@@ -92,7 +92,7 @@ const doScan = async () => {
   try {
     if (result && result.barcodes.length > 0) {
       // Get the first barcode from the result
-      const scannedBarcode = result.barcodes[0];
+      const scannedBarcode = result.barcodes[0].rawValue;
       searchMe(scannedBarcode)
       
       console.log('Scanned Barcode: ', scannedBarcode);
