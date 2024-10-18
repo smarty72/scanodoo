@@ -1,8 +1,9 @@
 <template>
   <ion-page>
-    <ion-header>
-  <ion-toolbar>
-    <ion-title>Barcode Scanner</ion-title>
+    <ion-header mode="ios">
+  <ion-toolbar color="primary">
+    <!--ion-title>Barcode Scanner</ion-title-->
+    <ion-searchbar placeholder="Zoek op artikelnummer" mode="ios" class="ion-margin-top" v-model="searchValue" @ionInput="searchMe"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
@@ -10,8 +11,13 @@
   <StreamBarcodeReader v-if="!isSupported && showScan" @decode="getResults" @loaded="onLoaded"></StreamBarcodeReader>
   <ion-list v-if="barcodes.length && !showScan">
     <ion-item v-for="(barcode, index) in barcodes" :key="index">
-      <ion-label position="stacked">{{ barcode.format }}</ion-label>
-      <ion-input type="text" v-model="barcode.rawValue"></ion-input>
+      <ion-img slot="start" :src="barcode.image" style="height:80px"></ion-img>
+      <ion-label>{{ barcode.number }} {{ barcode.name }}
+        <p>{{ barcode.brand }} | {{ barcode.size }}</p>
+      </ion-label>
+      <ion-label slot="end">&euro; 3,99 <br>
+        <ion-note>{{ barcode.unit }}</ion-note>
+      </ion-label>
     </ion-item>
   </ion-list>
   
@@ -26,28 +32,46 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { alertController, IonContent, IonPage, IonItem, IonHeader,IonTitle, IonToolbar, IonLabel,IonFab,IonList,IonFabButton,IonInput, IonIcon } from '@ionic/vue'; 
+import { ref, onMounted, watch, nextTick } from 'vue';
+import { alertController, IonContent,IonSearchbar,IonNote, IonPage, IonItem, IonHeader,IonImg, IonToolbar, IonLabel,IonFab,IonList,IonFabButton,IonInput, IonIcon } from '@ionic/vue'; 
 import {  scan, close } from 'ionicons/icons';
 import { BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 import { StreamBarcodeReader } from "vue-barcode-reader";
+import {searchProduct} from "@/plugins/interfaceControler"
 
 // State variables
 const isSupported = ref(false);
 const showScan = ref(false);
 const barcodes = ref([]);
-
+const searchValue = ref()
+const iFrame = ref()
+const shopUrl = ref()
 // Check if barcode scanning is supported when the component mounts
 onMounted(async () => {
   const result = await BarcodeScanner.isSupported();
   isSupported.value = result.supported;
 });
 
+watch(searchValue,(value)=>searchMe(value))
+
+let timer
+async function searchMe(evt){
+  if (!searchValue.value) return
+  if (timer) clearTimeout(timer)
+  timer = setTimeout(async ()=>{
+      const product = await searchProduct(searchValue.value)
+      if (!product) return alert('Product kan niet gevonden worden')
+      barcodes.value.push(product)
+      searchValue.value = ''
+  },400)
+  
+  //
+}
+
 function onLoaded(){
   console.log('cameraReady')
 }
 function getResults(a, b, c) {
-  console.log(a, b, c);
   showScan.value = false
   barcodes.value.push({format: a,rawValue:b,c })
 }
@@ -103,5 +127,10 @@ li {
   font-size: 14px;
   list-style-type: none;
   padding: 5px;
+}
+iframe {
+  border:0;
+  width:100%;
+  height:99%;
 }
 </style>
