@@ -60,7 +60,7 @@ async function searchMe(evt){
   if (timer) clearTimeout(timer)
   timer = setTimeout(async ()=>{
       const product = await searchProduct(searchValue.value)
-      if (!product) return alert('Product kan niet gevonden worden')
+      if (!product) return alert(`Product ${searchValue.value} kan niet gevonden worden`)
       barcodes.value.push(product)
       searchValue.value = ''
   },400)
@@ -73,7 +73,8 @@ function onLoaded(){
 }
 function getResults(a, b, c) {
   showScan.value = false
-  barcodes.value.push({format: a,rawValue:b,c })
+  searchValue.value = a
+  searchMe()
 }
 
 // Function to request camera permissions and scan barcodes
@@ -88,7 +89,9 @@ const doScan = async () => {
   }
 
   const { barcodes: scannedBarcodes } = await BarcodeScanner.scan();
-  barcodes.value.push(...scannedBarcodes);
+  //barcodes.value.push(...scannedBarcodes);
+  searchValue.value = scannedBarcodes.barcode || scannedBarcodes.rawValue
+  searchMe()
 };
 
 // Function to request camera permissions
