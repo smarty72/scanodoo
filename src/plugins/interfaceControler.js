@@ -16,6 +16,7 @@ export async function searchProduct(search) {
   }
 }
 
+
 export function replaceImageInIframe() {
   try {
     // Get a reference to the iframe element
