@@ -3,7 +3,7 @@
     <ion-header mode="ios">
   <ion-toolbar color="primary">
     <!--ion-title>Barcode Scanner</ion-title-->
-    <ion-searchbar placeholder="Zoek op artikelnummer" mode="ios" class="ion-margin-top" v-model="searchValue" @ionInput="searchMe"></ion-searchbar>
+    <ion-searchbar placeholder="Scan een barcode of zoek op artikelnummer" mode="ios" class="ion-margin-top" v-model="searchValue" @ionInput="searchMe"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 

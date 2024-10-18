@@ -4,6 +4,6 @@ npm run build
 git add .
 git commit -am "Version 1.0"
 #heroku login
-git push scanner master -f
+git push scanner main -f -u
 #npx cap sync android
 #npx cap open android

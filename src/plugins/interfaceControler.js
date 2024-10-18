@@ -1,5 +1,5 @@
 import axios from 'axios';
-let server = (process.env.NODE_ENV =="development") ?  document.location.protocol + '//' + document.location.hostname + ':3000'  : document.location.origin
+let server = (process.env.NODE_ENV =="development") ?  document.location.protocol + '//' + document.location.hostname + ':3000'  : 'https://barcoder.eu-4.evennode.com'
 
 console.log(server)
 
