@@ -1,8 +1,6 @@
 import axios from 'axios';
 let server = (process.env.NODE_ENV =="development") ?  document.location.protocol + '//' + document.location.hostname + ':3000'  : 'https://barcoder.eu-4.evennode.com'
 
-console.log(server)
-
 export async function searchProduct(search) {
   try {
     // Fetch the document from the URL
