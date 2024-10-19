@@ -1,6 +1,6 @@
 <template>
   <div>
-  <ion-menu content-id="main-content">
+  <ion-menu content-id="main-content" color="dark">
     <ion-header mode="ios">
       <ion-toolbar color="primary">
         <ion-title>Menu</ion-title>
@@ -12,7 +12,8 @@
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding" color="dark">
-      <ion-list color="dark" style="--ion-background-color:transparent">
+      <br>
+      <ion-list color="dark" style="--ion-background-color:transparent;padding:0">
         <ion-item color="dark" button detail @click="showSearch=false">
           <ion-icon :icon="home" slot="start"></ion-icon>
           <ion-label>Thuis</ion-label></ion-item>
@@ -70,7 +71,7 @@
     </ion-item>
   </ion-list>
   <div v-else-if="!showScan" class="info">
-  <ion-card >
+  <ion-card class="outline">
     <ion-img src="./img/logoinvert.png"></ion-img>
     <ion-card-header>
       <ion-card-title class="ion-text-center">Welkom bij Tijssen</ion-card-title>
@@ -154,7 +155,6 @@ const doScan = async () => {
     presentAlert();
     return;
   }
-
   
   const result = await BarcodeScanner.scan();
   try {
@@ -228,4 +228,18 @@ div.info {
   margin-left:auto;
   margin-right:auto;
 }
+ion-card.outline,
+ion-content.outline,
+  #background-content{
+    break-inside: avoid;
+    cursor:pointer;
+    padding-bottom:0px;
+    height: fit-content;
+    border: 1px solid var(--ion-line-color);
+    overflow: unset;
+    
+    
+    box-shadow:none;
+
+  }
 </style>

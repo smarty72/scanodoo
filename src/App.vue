@@ -8,4 +8,5 @@
 import { IonApp, IonRouterOutlet } from '@ionic/vue';
 import { StatusBar, Style } from '@capacitor/status-bar';
 StatusBar.setBackgroundColor({color: '#31a64a'})
+
 </script>
