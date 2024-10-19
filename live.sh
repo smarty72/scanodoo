@@ -2,9 +2,9 @@
 # git rm -r --cached *.*
 npm run build
 git add .
-git commit -am "v0.0.6"
+git commit -am "v0.0.7"
 #heroku login
-git push scanner main -f -u
 git push scanodoo main -f -u
+git push scanner main -f -u
 #npx cap sync android
 #npx cap open android
