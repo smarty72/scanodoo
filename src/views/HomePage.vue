@@ -1,4 +1,5 @@
 <template>
+  <div>
   <ion-menu content-id="main-content">
     <ion-header mode="ios">
       <ion-toolbar color="primary">
@@ -68,7 +69,22 @@
       </ion-label>
     </ion-item>
   </ion-list>
-  
+  <div v-else-if="!showScan" class="info">
+  <ion-card >
+    <ion-img src="./img/logoinvert.png"></ion-img>
+    <ion-card-header>
+      <ion-card-title class="ion-text-center">Welkom bij Tijssen</ion-card-title>
+    </ion-card-header>
+    <ion-card-content class="ion-text-center ion-padding">
+
+      Deze app is speciaal ontwikkeld voor onze klanten. U kunt nu met uw mobiel telefoon of tablet door de winkel lopen, producten scannen en toevoegen aan uw winkelwagen. Vergeet niet in te loggen linksboven! 
+      <br><br>
+      De winkelwagen is gekoppeld met de winkelwagen in onze webshop. U kunt de app en de webshop dus naast elkaar gebruiken of apart. Net wat u fijn vindt.
+      <br>Heeft u hulp nodig?
+      <br>Schroom niet om ons te bellen<br>(071-3419125)
+    </ion-card-content>
+  </ion-card>
+</div>
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button @click="doScan()">
       <ion-icon :icon="close" v-if="showScan"></ion-icon>
@@ -77,11 +93,14 @@
   </ion-fab>
 </ion-content>
   </ion-page>
+</div>
 </template>
 
 <script setup>
 import { ref, onMounted, watch, nextTick } from 'vue';
-import { alertController,IonMenuToggle, IonContent,IonSearchbar,IonNote, IonPage, IonItem, IonHeader,IonImg, IonToolbar, IonLabel,IonFab,IonList,IonFabButton,IonInput, IonIcon } from '@ionic/vue'; 
+import { alertController,IonMenuToggle, IonTitle, IonMenu, IonButton, IonContent,IonSearchbar,IonNote, IonPage, IonItem, IonHeader,IonImg, IonToolbar, IonLabel,IonFab,IonList,IonFabButton,IonInput, IonIcon,
+  IonCard,IonCardHeader,IonCardTitle, IonCardContent
+ } from '@ionic/vue'; 
 import {  barcodeOutline, close,home,search,cart,exit, menu  } from 'ionicons/icons';
 import { BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 import { StreamBarcodeReader } from "vue-barcode-reader";
@@ -202,5 +221,11 @@ iframe {
 }
 ion-icon[slot="start"]{
   margin-inline-end: 12px!important;
+}
+div.info {
+  max-width: 500px;
+  
+  margin-left:auto;
+  margin-right:auto;
 }
 </style>
