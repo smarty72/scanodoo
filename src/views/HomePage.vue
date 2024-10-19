@@ -1,9 +1,57 @@
 <template>
-  <ion-page>
+  <ion-menu content-id="main-content">
+    <ion-header mode="ios">
+      <ion-toolbar color="primary">
+        <ion-title>Menu</ion-title>
+        <ion-menu-toggle slot="end">
+        <ion-button>
+          <ion-icon :icon="close"></ion-icon>
+        </ion-button>
+      </ion-menu-toggle>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding" color="dark">
+      <ion-list color="dark" style="--ion-background-color:transparent">
+        <ion-item color="dark" button detail @click="showSearch=false">
+          <ion-icon :icon="home" slot="start"></ion-icon>
+          <ion-label>Thuis</ion-label></ion-item>
+          <ion-item color="dark" button detail @click="doScan();showSearch=false">
+          <ion-icon :icon="barcodeOutline" slot="start"></ion-icon>
+          <ion-label>Scannen</ion-label></ion-item>
+          <ion-item color="dark" button detail @click="showSearch=!showSearch">
+          <ion-icon :icon="search" slot="start"></ion-icon>
+          <ion-label>Zoeken</ion-label></ion-item>
+          <ion-item color="dark" button detail>
+          <ion-icon :icon="cart" slot="start"></ion-icon>
+          <ion-label>Winkelwagen</ion-label></ion-item>
+          <ion-item color="dark" button detail>
+          <ion-icon :icon="exit" slot="start"></ion-icon>
+          <ion-label>Login</ion-label></ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+  <ion-page id="main-content">
     <ion-header mode="ios">
   <ion-toolbar color="primary">
+    <ion-menu-toggle slot="start">
+        <ion-button>
+          <ion-icon :icon="menu"></ion-icon>
+        </ion-button>
+      </ion-menu-toggle>
+      <ion-button slot="start" @click="doScan();showSearch=false">
+          <ion-icon :icon="barcodeOutline"></ion-icon>
+        </ion-button>
+      <ion-img src="./img/logo.png" style="height:50px"></ion-img>
+      <ion-button slot="end" @click="showSearch=!showSearch">
+          <ion-icon :icon="search"></ion-icon>
+        </ion-button>
+        <ion-button slot="end">
+          <ion-icon :icon="cart"></ion-icon>
+        </ion-button>
     <!--ion-title>Barcode Scanner</ion-title-->
-    <ion-searchbar placeholder="Scan een barcode of zoek op artikelnummer" mode="ios" class="ion-margin-top" v-model="searchValue" @ionInput="searchMe"></ion-searchbar>
+  </ion-toolbar>
+  <ion-toolbar color="primary" v-if="showSearch">
+    <ion-searchbar placeholder="Scan een barcode of zoek op artikelnummer" mode="ios" v-model="searchValue" @ionInput="searchMe"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
@@ -24,7 +72,7 @@
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button @click="doScan()">
       <ion-icon :icon="close" v-if="showScan"></ion-icon>
-      <ion-icon :icon="scan" v-else></ion-icon>
+      <ion-icon :icon="barcodeOutline" v-else></ion-icon>
     </ion-fab-button>
   </ion-fab>
 </ion-content>
@@ -33,8 +81,8 @@
 
 <script setup>
 import { ref, onMounted, watch, nextTick } from 'vue';
-import { alertController, IonContent,IonSearchbar,IonNote, IonPage, IonItem, IonHeader,IonImg, IonToolbar, IonLabel,IonFab,IonList,IonFabButton,IonInput, IonIcon } from '@ionic/vue'; 
-import {  scan, close } from 'ionicons/icons';
+import { alertController,IonMenuToggle, IonContent,IonSearchbar,IonNote, IonPage, IonItem, IonHeader,IonImg, IonToolbar, IonLabel,IonFab,IonList,IonFabButton,IonInput, IonIcon } from '@ionic/vue'; 
+import {  barcodeOutline, close,home,search,cart,exit, menu  } from 'ionicons/icons';
 import { BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 import { StreamBarcodeReader } from "vue-barcode-reader";
 import {searchProduct} from "@/plugins/interfaceControler"
@@ -42,6 +90,7 @@ import {searchProduct} from "@/plugins/interfaceControler"
 // State variables
 const isSupported = ref(false);
 const showScan = ref(false);
+const showSearch= ref(false);
 const barcodes = ref([]);
 const searchValue = ref()
 const iFrame = ref()
@@ -150,5 +199,8 @@ iframe {
   border:0;
   width:100%;
   height:99%;
+}
+ion-icon[slot="start"]{
+  margin-inline-end: 12px!important;
 }
 </style>

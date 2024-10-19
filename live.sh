@@ -2,7 +2,7 @@
 # git rm -r --cached *.*
 npm run build
 git add .
-git commit -am "Version 1.0"
+git commit -am "v0.0.6"
 #heroku login
 git push scanner main -f -u
 git push scanodoo main -f -u
